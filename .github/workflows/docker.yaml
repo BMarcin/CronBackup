@@ -1,13 +1,34 @@
-name: Build Docker image
+name: Test and build docker image
 
 on:
   push:
     branches:
-      - 'main'
+      - '*'
 
 jobs:
+  TestCode:
+    runs-on: ubuntu-latest
+    image:
+      name: python:3.10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip setuptools
+          pip install -U poetry
+          poetry install
+
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+
   DockerBuildPush:
     runs-on: ubuntu-latest
+
+    needs: TestCode
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
