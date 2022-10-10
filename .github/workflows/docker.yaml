@@ -8,8 +8,8 @@ on:
 jobs:
   TestCode:
     runs-on: ubuntu-latest
-    image:
-      name: python:3.10
+    container:
+      image: python:3.10
 
     steps:
       - name: Checkout
