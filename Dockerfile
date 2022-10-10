@@ -3,7 +3,7 @@ RUN pip install -U pip setuptools
 RUN pip install -U poetry
 
 WORKDIR /app
-COPY poetry.lock ./
+COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-dev
 
 COPY . .
