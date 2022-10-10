@@ -23,7 +23,7 @@ jobs:
 
       - name: flake8 Lint
         run: |
-          poetry run flake8 --format=html --htmldir=flake8-report
+          poetry run flake8 --format=html
 
       - name: Upload flake8 report
         uses: actions/upload-artifact@v3
