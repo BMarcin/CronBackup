@@ -77,8 +77,8 @@ if __name__ == '__main__':
     config = {
         'name': 'mblabs-test',
         'type': 's3',
-        'access_key_id': 'AKIARSNAEWUPJXSY5Z4U',
-        'secret_access_key': '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',
+        'access_key_id': 'AKIAIOSFODNN7EXAMPLE123123123',
+        'secret_access_key': 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY123123123123',
         'bucket': 'mblabs-test2',
         'region': 'eu-central-1',
         'endpoint': 'https://s3.amazonaws.com',
