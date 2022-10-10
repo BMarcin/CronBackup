@@ -23,7 +23,8 @@ jobs:
 
       - name: flake8 Lint
         run: |
-          poetry run flake8 --format=html
+          mkdir flake-report
+          poetry run flake8 --format=html --htmldir=flake-report --exclude=.github
 
       - name: Upload flake8 report
         uses: actions/upload-artifact@v3
