@@ -22,10 +22,8 @@ jobs:
           poetry install
 
       - name: flake8 Lint
-        uses: py-actions/flake8@v2
-        with:
-          plugins: "flake8-bugbear flake8-docstrings flake8-import-order flake8-quotes flake8-html"
-          args: "--format=html --htmldir=flake8-report"
+        run: |
+          poetry run flake8 --format=html --htmldir=flake8-report
 
       - name: Upload flake8 report
         uses: actions/upload-artifact@v3
