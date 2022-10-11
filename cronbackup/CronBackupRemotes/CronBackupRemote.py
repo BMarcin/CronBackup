@@ -13,6 +13,5 @@ class CronBackupRemote(ABC):
     def get_remote_items(self, destination_path: Path, *args, **kwargs):
         pass
 
-    def delete_remote_item(self, destination_path: Path, *args, **kwargs
-    ):
+    def delete_remote_item(self, destination_path: Path, *args, **kwargs):
         pass

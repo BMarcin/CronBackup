@@ -18,7 +18,7 @@ class S3Remote(CronBackupRemote):
             "type",
             "secret_access_key",
             "access_key_id",
-            "bucket"
+            "bucket",
         }, "Invalid config keys for S3Remote"
 
         assert self.config["type"] == "s3", "Invalid type for S3Remote"
