@@ -23,6 +23,7 @@ jobs:
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
+        shell: poetry run {0}
         with:
           flake8: true
 
