@@ -29,6 +29,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           flake8: true
           black: true
+          eslint_args: --ignore=F401
 
 
   DockerBuildPush:
