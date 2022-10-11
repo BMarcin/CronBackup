@@ -44,14 +44,14 @@ class S3Remote(CronBackupRemote):
         self.s3_resource = self.s3_session.resource("s3", endpoint_url=self.endpoint)
         self.s3_client = self.s3_session.client("s3", endpoint_url=self.endpoint)
 
-        # if bucket doesn't exist, create it
-        if self.bucket not in [bucket.name for bucket in self.s3_resource.buckets.all()]:
+        # if bucket doesn"t exist, create it
+        if self.bucket not in [
+            bucket.name for bucket in self.s3_resource.buckets.all()
+        ]:
             logging.info("Bucket {} does not exist, creating it".format(self.bucket))
             self.s3_resource.create_bucket(
                 Bucket=self.bucket,
-                CreateBucketConfiguration={
-                    "LocationConstraint": self.region
-                }
+                CreateBucketConfiguration={"LocationConstraint": self.region}
             )
             self.s3_client.put_public_access_block(
                 Bucket=self.bucket,
@@ -68,13 +68,15 @@ class S3Remote(CronBackupRemote):
             Filename=str(source_path),
             Bucket=self.bucket,
             Key=str(destination_path),
-            Config=TransferConfig(multipart_chunksize=self.multipart_chunk_size)
+            Config=TransferConfig(multipart_chunksize=self.multipart_chunk_size),
         )
 
     def get_remote_items(self, destination_path: Path, *args, **kwargs):
         if self.bucket in [bucket.name for bucket in self.s3_resource.buckets.all()]:
-            return [item.key for item in
-                    self.s3_resource.Bucket(self.bucket).objects.filter(Prefix=str(destination_path))]
+            return [
+                item.key 
+                for item in self.s3_resource.Bucket(self.bucket).objects.filter(
+                    Prefix=str(destination_path))]
         else:
             return []
 
@@ -82,7 +84,7 @@ class S3Remote(CronBackupRemote):
         self.s3_resource.Object(self.bucket, str(destination_path)).delete()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s"
