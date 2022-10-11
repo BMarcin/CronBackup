@@ -13,8 +13,12 @@ alerts_mapping_dict = {"webhook": "cronbackup.CronBackupAlerts.Webhook"}
 
 
 class CronBackup:
-    def __init__(self, config_path: Path, remotes_mapping: Union[dict, None] = None,
-                 alerts_mapping: Union[dict, None] = None):
+    def __init__(
+            self,
+            config_path: Path,
+            remotes_mapping: Union[dict, None] = None,
+            alerts_mapping: Union[dict, None] = None
+    ):
         logging.info(f"Initializing CronBackup with config_path: {config_path}")
         self.config_path = config_path
 
@@ -94,7 +98,10 @@ class CronBackup:
                 logging.info("Starting a job {}".format(job["name"]))
                 # tar gz all files
                 source_files_path = Path(job["source"])
-                target_backup_file_path = Path(job["local_path"]) / self.get_target_backup_file_name(job["name"])
+                target_backup_file_path = Path(
+                    job["local_path"]
+                ) / self.get_target_backup_file_name(job["name"])
+
                 if not target_backup_file_path.parent.exists():
                     target_backup_file_path.parent.mkdir(parents=True)
                 CronBackup.pack_files(source_files_path, target_backup_file_path)
@@ -102,11 +109,14 @@ class CronBackup:
 
                 # delete old backups
                 local_files = list(
-                    target_backup_file_path.parent.glob(target_backup_file_path.name.split("_")[0] + "*"))
+                    target_backup_file_path.parent.glob(
+                        target_backup_file_path.name.split("_")[0] + "*"
+                    )
+                )
                 local_files.sort()
 
                 if len(local_files) > job["keep_local"]:
-                    for file in local_files[:-job["keep_local"]]:
+                    for file in local_files[: -job["keep_local"]]:
                         logging.info(f"Deleting {file}")
                         file.unlink()
 
@@ -115,7 +125,8 @@ class CronBackup:
                     for remote in job["remotes"]:
                         logging.info("Importing remote module {}".format(remote))
                         remote_class = importlib.import_module(
-                            self.remotes_mapping[self.config_remotes[remote]["type"]])
+                            self.remotes_mapping[self.config_remotes[remote]["type"]]
+                        )
                         module_name = remote_class.__name__.split(".")[-1]
                         remote_class_obj = getattr(remote_class, module_name)
 
@@ -123,22 +134,32 @@ class CronBackup:
                         current_remote = remote_class_obj(self.config_remotes[remote], name=remote)
 
                         logging.info("Uploading to remote {}".format(remote))
-                        current_remote.upload(source_path=target_backup_file_path,
-                                              destination_path=job["name"] + "/" + target_backup_file_path.name)
+                        current_remote.upload(
+                            source_path=target_backup_file_path,
+                            destination_path=job["name"]
+                            + "/"
+                            + target_backup_file_path.name
+                        )
 
                         # delete old backups on remote
-                        current_remote_files = current_remote.get_remote_items(destination_path=job["name"])
+                        current_remote_files = current_remote.get_remote_items(
+                            destination_path=job["name"]
+                        )
                         current_remote_files.sort()
                         if len(current_remote_files) > job["keep_remote"]:
-                            for file in current_remote_files[:-job["keep_remote"]]:
+                            for file in current_remote_files[: -job["keep_remote"]]:
                                 # print(file.keys())
                                 logging.info(f"Deleting {file} from remote {remote}")
                                 current_remote.delete_remote_item(file)
                     logging.info("Finished uploading and deleting old backups")
                 else:
                     logging.error("Backup file not found")
-                    self.send_alerts(service="CronBackup",
-                                     message="Backup file {} not found".format(target_backup_file_path))
+                    self.send_alerts(
+                        service="CronBackup",
+                        message="Backup file {} not found".format(
+                            target_backup_file_path
+                        ),
+                    )
         except Exception as e:
             self.send_alerts(service="CronBackup", message=str(e))
             logging.exception(e)
