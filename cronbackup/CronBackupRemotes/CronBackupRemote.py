@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 class CronBackupRemote(ABC):
-    def __init__(self, config:dict, *args, **kwargs):
+    def __init__(self, config: dict, *args, **kwargs):
         pass
 
     def upload(

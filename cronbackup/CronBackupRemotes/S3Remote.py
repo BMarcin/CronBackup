@@ -11,8 +11,15 @@ class S3Remote(CronBackupRemote):
     def __init__(self, config: dict, *args, **kwargs):
         super().__init__(config, *args, **kwargs)
         self.config = config
-        assert set(self.config.keys()) == {'endpoint', 'region', 'multipart_chunk_size', 'type', 'secret_access_key',
-                                           'access_key_id', 'bucket'}, 'Invalid config keys for S3Remote'
+        assert set(self.config.keys()) == {
+            'endpoint',
+            'region',
+            'multipart_chunk_size',
+            'type',
+            'secret_access_key',
+            'access_key_id',
+            'bucket'
+        }, 'Invalid config keys for S3Remote'
 
         assert self.config['type'] == 's3', 'Invalid type for S3Remote'
 
@@ -40,9 +47,12 @@ class S3Remote(CronBackupRemote):
         # if bucket doesn't exist, create it
         if self.bucket not in [bucket.name for bucket in self.s3_resource.buckets.all()]:
             logging.info('Bucket {} does not exist, creating it'.format(self.bucket))
-            self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
-                'LocationConstraint': self.region
-            })
+            self.s3_resource.create_bucket(
+                Bucket=self.bucket,
+                CreateBucketConfiguration={
+                    'LocationConstraint': self.region
+                }
+            )
             self.s3_client.put_public_access_block(
                 Bucket=self.bucket,
                 PublicAccessBlockConfiguration={
@@ -73,12 +83,15 @@ class S3Remote(CronBackupRemote):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
     config = {
         'name': 'mblabs-test',
         'type': 's3',
-        'access_key_id': 'AKIAIOSFODNN7EXAMPLE123123123',
-        'secret_access_key': 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY123123123123',
+        'access_key_id': '',
+        'secret_access_key': '',
         'bucket': 'mblabs-test2',
         'region': 'eu-central-1',
         'endpoint': 'https://s3.amazonaws.com',
