@@ -19,6 +19,7 @@ flake8 = "^5.0.4"
 flake8-html = "^0.4.2"
 flake8-bugbear = "^22.9.23"
 flake8-import-order = "^0.18.1"
+Jinja2 = "^3.1.2"
 
 [build-system]
 requires = ["poetry-core"]

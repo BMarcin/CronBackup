@@ -20,11 +20,13 @@ jobs:
           pip install -U pip setuptools
           pip install -U poetry
           poetry install
+          pip uninstall flake8
+          poetry install
 
       - name: flake8 Lint
         run: |
           mkdir flake-report
-          poetry run flake8 --format=html --htmldir=flake-report --exclude=.github
+          poetry run flake8 --format=html --htmldir=flake-report
 
       - name: Upload flake8 report
         uses: actions/upload-artifact@v3
