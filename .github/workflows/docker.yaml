@@ -20,8 +20,9 @@ jobs:
           pip install -U pip setuptools
           pip install -U poetry
           poetry install
-    - name: Run tests
-      uses: weibullguy/python-lint-plus@master
+
+      - name: Run tests
+        uses: weibullguy/python-lint-plus@master
         with:
           python-root-list: "cronbackup"
           use-black: false
