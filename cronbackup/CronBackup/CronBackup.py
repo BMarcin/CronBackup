@@ -106,7 +106,8 @@ class CronBackup:
                 logging.info('Finished packing files')
 
                 # delete old backups
-                local_files = list(target_backup_file_path.parent.glob(target_backup_file_path.name.split('_')[0] + '*'))
+                local_files = list(
+                    target_backup_file_path.parent.glob(target_backup_file_path.name.split('_')[0] + '*'))
                 local_files.sort()
 
                 if len(local_files) > job['keep_local']:
@@ -118,7 +119,8 @@ class CronBackup:
                 if target_backup_file_path.exists():
                     for remote in job['remotes']:
                         logging.info('Importing remote module {}'.format(remote))
-                        remote_class = importlib.import_module(self.remotes_mapping[self.config_remotes[remote]['type']])
+                        remote_class = importlib.import_module(
+                            self.remotes_mapping[self.config_remotes[remote]['type']])
                         module_name = remote_class.__name__.split('.')[-1]
                         remote_class_obj = getattr(remote_class, module_name)
 
@@ -126,7 +128,8 @@ class CronBackup:
                         current_remote = remote_class_obj(self.config_remotes[remote], name=remote)
 
                         logging.info('Uploading to remote {}'.format(remote))
-                        current_remote.upload(source_path=target_backup_file_path, destination_path=job['name'] + '/' + target_backup_file_path.name)
+                        current_remote.upload(source_path=target_backup_file_path,
+                                              destination_path=job['name'] + '/' + target_backup_file_path.name)
 
                         # delete old backups on remote
                         current_remote_files = current_remote.get_remote_items(destination_path=job['name'])
@@ -139,11 +142,11 @@ class CronBackup:
                     logging.info('Finished uploading and deleting old backups')
                 else:
                     logging.error('Backup file not found')
-                    self.send_alerts(service='CronBackup', message='Backup file {} not found'.format(target_backup_file_path))
+                    self.send_alerts(service='CronBackup',
+                                     message='Backup file {} not found'.format(target_backup_file_path))
         except Exception as e:
             self.send_alerts(service='CronBackup', message=str(e))
             logging.exception(e)
-
 
 
 if __name__ == '__main__':
