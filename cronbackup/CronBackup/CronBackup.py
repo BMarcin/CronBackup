@@ -17,7 +17,7 @@ class CronBackup:
         self,
         config_path: Path,
         remotes_mapping: Union[dict, None] = None,
-        alerts_mapping: Union[dict, None] = None
+        alerts_mapping: Union[dict, None] = None,
     ):
         logging.info(f"Initializing CronBackup with config_path: {config_path}")
         self.config_path = config_path
@@ -138,9 +138,7 @@ class CronBackup:
                         logging.info("Uploading to remote {}".format(remote))
                         current_remote.upload(
                             source_path=target_backup_file_path,
-                            destination_path=job["name"]
-                            + "/"
-                            + target_backup_file_path.name,
+                            destination_path=job["name"] + "/" + target_backup_file_path.name,
                         )
 
                         # delete old backups on remote
