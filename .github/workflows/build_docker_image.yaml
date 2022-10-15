@@ -1,41 +1,16 @@
-name: Test and build docker image
+name: Build docker image on publish
 
 on:
-  push:
-    branches:
-      - '**'
+  release:
+    types:
+      - published
 
 jobs:
-  TestCode:
-    runs-on: ubuntu-latest
-#     container:
-#       image: python:3.10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Install Python dependencies
-        run: pip install black flake8
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          flake8: true
-          black: true
-          flake8_args: --ignore=F401,E501
-
   DockerBuildPush:
     runs-on: ubuntu-latest
 
     needs: TestCode
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code

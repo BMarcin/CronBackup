@@ -138,7 +138,9 @@ class CronBackup:
                         logging.info("Uploading to remote {}".format(remote))
                         current_remote.upload(
                             source_path=target_backup_file_path,
-                            destination_path=job["name"] + "/" + target_backup_file_path.name,
+                            destination_path=job["name"]
+                            + "/"
+                            + target_backup_file_path.name,
                         )
 
                         # delete old backups on remote
