@@ -59,7 +59,7 @@ class S3Remote(CronBackupRemote):
                     "BlockPublicAcls": True,
                     "IgnorePublicAcls": True,
                     "BlockPublicPolicy": True,
-                    "RestrictPublicBuckets": True
+                    "RestrictPublicBuckets": True,
                 }
             )
 
