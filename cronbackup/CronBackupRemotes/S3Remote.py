@@ -60,7 +60,7 @@ class S3Remote(CronBackupRemote):
                     "IgnorePublicAcls": True,
                     "BlockPublicPolicy": True,
                     "RestrictPublicBuckets": True,
-                }
+                },
             )
 
     def upload(self, source_path: Path, destination_path: Path, *args, **kwargs):

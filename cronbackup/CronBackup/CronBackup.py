@@ -14,10 +14,10 @@ alerts_mapping_dict = {"webhook": "cronbackup.CronBackupAlerts.Webhook"}
 
 class CronBackup:
     def __init__(
-            self,
-            config_path: Path,
-            remotes_mapping: Union[dict, None] = None,
-            alerts_mapping: Union[dict, None] = None
+        self,
+        config_path: Path,
+        remotes_mapping: Union[dict, None] = None,
+        alerts_mapping: Union[dict, None] = None
     ):
         logging.info(f"Initializing CronBackup with config_path: {config_path}")
         self.config_path = config_path
@@ -131,14 +131,16 @@ class CronBackup:
                         remote_class_obj = getattr(remote_class, module_name)
 
                         logging.info("Initializing remote {}".format(remote))
-                        current_remote = remote_class_obj(self.config_remotes[remote], name=remote)
+                        current_remote = remote_class_obj(
+                            self.config_remotes[remote], name=remote
+                        )
 
                         logging.info("Uploading to remote {}".format(remote))
                         current_remote.upload(
                             source_path=target_backup_file_path,
                             destination_path=job["name"]
                             + "/"
-                            + target_backup_file_path.name
+                            + target_backup_file_path.name,
                         )
 
                         # delete old backups on remote
@@ -166,7 +168,9 @@ class CronBackup:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
     config_file_path = Path("../../config.yaml")
     cron_backup = CronBackup(config_file_path)
     cron_backup.run()
