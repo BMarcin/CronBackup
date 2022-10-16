@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+import time
 
 from cronbackup.CronBackup import CronBackup
 
@@ -13,4 +14,6 @@ if __name__ == "__main__":
         config_file_path.write_text("remotes:\nitems:\nalerts:\n")
 
     cron_backup = CronBackup(config_file_path)
-    cron_backup.run()
+    while True:
+        cron_backup.run()
+        time.sleep(60)
