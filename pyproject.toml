@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "cronbackup"
-version = "0.1.0"
+version = "1.0.0-beta.1"
 description = "Docker container for making backups of volumes to S3"
-authors = ["BMarcin <m1.borzymowski@gmail.com>"]
+authors = ["BMarcin <m.borzymowski@protonmail.com>"]
 license = "GNU General Public License v3.0"
 readme = "README.md"
 

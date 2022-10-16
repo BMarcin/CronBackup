@@ -70,7 +70,7 @@ jobs:
         uses: djn24/add-asset-to-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: dist/cronbackup-0.1.0-py3-none-any.whl
+          path: dist/*.whl
 
-      - name: Upload WHL to PyPI
-        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+#       - name: Upload WHL to PyPI
+#         run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
