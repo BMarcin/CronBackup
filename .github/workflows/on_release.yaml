@@ -64,11 +64,11 @@ jobs:
         run: poetry install
 
       - name: Build wheel
-        run: poetry build
+        run: poetry build -f wheel
 
       - name: Edit release and add WHL
         uses: irongut/EditRelease@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: ${{ github.event.release.id }}
-          files: cronbackup-0.1.0-py3-none-any.whl
+          files: dist/cronbackup-0.1.0-py3-none-any.whl
