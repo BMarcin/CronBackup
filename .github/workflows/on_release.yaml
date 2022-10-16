@@ -66,11 +66,14 @@ jobs:
       - name: Build wheel
         run: poetry build -f wheel
 
+      - name: Set WHL name as env variable
+        run: echo "WHL_NAME=$(ls dist/*.whl | top -n 1)" >> $GITHUB_ENV
+
       - name: Edit release and add WHL
         uses: djn24/add-asset-to-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: dist/*.whl
+          path: ${{ env.WHL_NAME }}
 
 #       - name: Upload WHL to PyPI
 #         run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
