@@ -67,7 +67,7 @@ jobs:
         run: poetry build -f wheel
 
       - name: Set WHL name as env variable
-        run: echo "WHL_NAME=$(ls dist/*.whl | top -n 1)" >> $GITHUB_ENV
+        run: echo "WHL_NAME=$(ls dist/*.whl | head -n 1)" >> $GITHUB_ENV
 
       - name: Edit release and add WHL
         uses: djn24/add-asset-to-release@v1
