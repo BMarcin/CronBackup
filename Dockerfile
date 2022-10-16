@@ -13,4 +13,4 @@ RUN poetry install --no-dev
 
 # copy project files
 COPY . .
-CMD ["python", "main.py"]
+CMD ["poetry", "run", "python", "main.py"]
