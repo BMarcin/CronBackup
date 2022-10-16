@@ -73,4 +73,4 @@ jobs:
           path: dist/cronbackup-0.1.0-py3-none-any.whl
 
       - name: Upload WHL to PyPI
-        run: poetry publish --build -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
