@@ -71,4 +71,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: ${{ github.event.release.id }}
-          files: dist/*.whl
+          files: cronbackup-0.1.0-py3-none-any.whl
