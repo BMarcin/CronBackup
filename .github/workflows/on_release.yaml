@@ -67,8 +67,7 @@ jobs:
         run: poetry build -f wheel
 
       - name: Edit release and add WHL
-        uses: irongut/EditRelease@v1.2.0
+        uses: djn24/add-asset-to-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ github.event.release.id }}
-          files: dist/cronbackup-0.1.0-py3-none-any.whl
+          path: dist/cronbackup-0.1.0-py3-none-any.whl
