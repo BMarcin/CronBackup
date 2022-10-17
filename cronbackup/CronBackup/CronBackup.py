@@ -51,6 +51,14 @@ class CronBackup:
             )
         )
 
+    def reload_config(self):
+        logging.info("Reloading config")
+        self.config = self.read_config()
+        self.config_remotes = self.config["remotes"]
+        self.config_items = self.config["items"]
+        self.config_alerts = self.config["alerts"]
+        logging.info("Reloaded config")
+
     def read_config(self):
         with open(self.config_path, "r") as f:
             config = yaml.safe_load(f)

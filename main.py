@@ -13,7 +13,13 @@ if __name__ == "__main__":
         logging.info("Config file not found. Creating empty...")
         config_file_path.write_text("remotes:\nitems:\nalerts:\n")
 
+    last_update_time = config_file_path.stat().st_mtime
+
     cron_backup = CronBackup(config_file_path)
     while True:
+        if config_file_path.stat().st_mtime != last_update_time:
+            logging.info("Config file changed. Reloading...")
+            cron_backup.reload_config()
+            last_update_time = config_file_path.stat().st_mtime
         cron_backup.run()
         time.sleep(60)
