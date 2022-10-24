@@ -16,6 +16,6 @@ class PostgresDumper:
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     dumper = PostgresDumper(user="", password="", host="", port=5432)
     dumper.dump("postres", Path("./test.sql"))
