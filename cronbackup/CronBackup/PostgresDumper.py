@@ -3,13 +3,7 @@ from pathlib import Path
 
 
 class PostgresDumper:
-    def __init__(
-        self,
-        user: str,
-        password: str,
-        host: str,
-        port:int = 5432
-    ):
+    def __init__(self, user: str, password: str, host: str, port:int = 5432):
         self.user = user
         self.password = password
         self.host = host
@@ -22,10 +16,5 @@ class PostgresDumper:
         )
 
 if __name__ == '__main__':
-    dumper = PostgresDumper(
-        user="",
-        password="",
-        host="",
-        port=5432
-    )
+    dumper = PostgresDumper(user="", password="", host="", port=5432)
     dumper.dump("postres", Path("./test.sql"))
