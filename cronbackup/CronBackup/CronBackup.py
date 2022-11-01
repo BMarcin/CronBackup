@@ -104,6 +104,25 @@ class CronBackup:
             logging.info(f"Found {len(jobs)} jobs to be done")
             for job in jobs:
                 logging.info("Starting a job {}".format(job["name"]))
+
+                # import plugins
+                logging.info("Importing plugins")
+                job_plugins = []
+                if 'plugins' in job.keys():
+                    for plugin in job['plugins']:
+                        logging.info("Importing plugin module {}".format(plugin["name"]))
+                        plugin_class = importlib.import_module(plugin["module"])
+                        module_name = plugin_class.__name__.split(".")[-1]
+                        plugin_class_obj = getattr(plugin_class, module_name)
+
+                        logging.info("Initializing plugin {}".format(plugin["name"]))
+                        current_plugin = plugin_class_obj(**plugin["config"])
+
+                        job_plugins.append(current_plugin)
+
+                        logging.info("Running plugin {}".format(plugin["name"]))
+                        current_plugin.run(**plugin["config"])
+
                 # tar gz all files
                 source_files_path = Path(job["source"])
                 target_backup_file_path = Path(
@@ -162,6 +181,11 @@ class CronBackup:
                                 logging.info(f"Deleting {file} from remote {remote}")
                                 current_remote.delete_remote_item(file)
                     logging.info("Finished uploading and deleting old backups")
+
+                    # cleanup plugins
+                    for plugin in job_plugins:
+                        logging.info("Cleaning up plugin {}".format(plugin))
+                        plugin.cleanup()
                 else:
                     logging.error("Backup file not found")
                     self.send_alerts(
