@@ -108,9 +108,11 @@ class CronBackup:
                 # import plugins
                 logging.info("Importing plugins")
                 job_plugins = []
-                if 'plugins' in job.keys():
-                    for plugin in job['plugins']:
-                        logging.info("Importing plugin module {}".format(plugin["name"]))
+                if "plugins" in job.keys():
+                    for plugin in job["plugins"]:
+                        logging.info(
+                            "Importing plugin module {}".format(plugin["name"])
+                        )
                         plugin_class = importlib.import_module(plugin["module"])
                         module_name = plugin_class.__name__.split(".")[-1]
                         plugin_class_obj = getattr(plugin_class, module_name)

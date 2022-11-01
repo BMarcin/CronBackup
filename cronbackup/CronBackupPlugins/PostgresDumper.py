@@ -6,15 +6,7 @@ from cronbackup.CronBackupPlugins import CronBackupPlugin
 
 
 class PostgresDumper(CronBackupPlugin):
-    def __init__(
-        self,
-        user: str,
-        password: str,
-        host: str,
-        port: int = 5432,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, user: str, password: str, host: str, port: int = 5432, *args, **kwargs):
         super().__init__()
 
         self.user = user
