@@ -21,6 +21,8 @@ class PostgresDumper(CronBackupPlugin):
     def run(self, database: str, target_file_path: Path, *args, **kwargs):
         logging.info(f"Dumping database {database} to {target_file_path}")
         os.environ["PGPASSWORD"] = self.password
+        if not target_file_path.parent.exists():
+            target_file_path.parent.mkdir(parents=True, exist_ok=True)
         os.system(
             f"pg_dump -U {self.user} -h {self.host} -p {self.port} {database} > {target_file_path}"
         )
