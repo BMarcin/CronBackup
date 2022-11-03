@@ -1,5 +1,6 @@
 import logging
 import os
+import subprocess
 from pathlib import Path
 
 from cronbackup.CronBackupPlugins import CronBackupPlugin
@@ -23,9 +24,29 @@ class PostgresDumper(CronBackupPlugin):
         os.environ["PGPASSWORD"] = self.password
         if not target_file_path.parent.exists():
             target_file_path.parent.mkdir(parents=True, exist_ok=True)
-        os.system(
-            f"pg_dump -U {self.user} -h {self.host} -p {self.port} {database} > {target_file_path}"
+
+        # execute pg_dump and get the output
+        pg_dump = subprocess.Popen(
+            [
+                "pg_dump",
+                "-U",
+                self.user,
+                "-h",
+                self.host,
+                "-p",
+                str(self.port),
+                database,
+                "-f",
+                str(target_file_path),
+            ],
+            stdout=subprocess.PIPE,
         )
+        output, error = pg_dump.communicate()
+        if error:
+            logging.error(f"Error while dumping database {database}: {error}")
+            raise Exception(f"Error while dumping database {database}: {error}")
+        else:
+            logging.info(f"Database {database} dumped successfully")
         self._target_file_path = target_file_path
 
     def cleanup(self):
