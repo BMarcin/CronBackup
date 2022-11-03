@@ -27,7 +27,18 @@ class PostgresDumper(CronBackupPlugin):
 
         # execute pg_dump and get the output
         pg_dump = subprocess.Popen(
-            ["pg_dump", "-U", self.user, "-h", self.host, "-p", str(self.port), database, "-f", str(target_file_path)],
+            [
+                "pg_dump",
+                "-U",
+                self.user,
+                "-h",
+                self.host,
+                "-p",
+                str(self.port),
+                database,
+                "-f",
+                str(target_file_path)
+            ],
             stdout=subprocess.PIPE,
         )
         output, error = pg_dump.communicate()
