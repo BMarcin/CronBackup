@@ -37,7 +37,7 @@ class PostgresDumper(CronBackupPlugin):
                 str(self.port),
                 database,
                 "-f",
-                str(target_file_path)
+                str(target_file_path),
             ],
             stdout=subprocess.PIPE,
         )
