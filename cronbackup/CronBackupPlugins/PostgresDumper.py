@@ -53,7 +53,7 @@ class PostgresDumper(CronBackupPlugin):
 
     def cleanup(self):
         logging.info(f"Removing {self._target_file_path}")
-        os.remove(self._target_file_path)
+        self._target_file_path.unlink()
 
 
 if __name__ == "__main__":
